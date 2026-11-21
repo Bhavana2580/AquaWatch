@@ -1,0 +1,424 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AquaWatch | Flood Monitoring</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <header class="navbar">
+
+        <div class="logo">
+            <span class="logo-icon">🌊</span>
+            <h2>AquaWatch</h2>
+        </div>
+
+        <nav>
+            <a href="#dashboard">Dashboard</a>
+            <a href="#ml-prediction">ML Prediction</a>
+            <a href="#comparison">Comparison</a>
+            <a href="#map-section">Flood Map</a>
+            <a href="#about">About</a>
+        </nav>
+
+        <div class="status">
+            <span class="status-dot"></span>
+            Monitoring System
+        </div>
+
+    </header>
+
+
+    <main class="container" id="dashboard">
+
+        <!-- HERO SECTION -->
+
+        <section class="hero">
+
+            <div>
+
+                <p class="tagline">
+                    SATELLITE-BASED FLOOD MONITORING
+                </p>
+
+                <h1>
+                    Monitor Floods.<br>
+                    Protect Communities.
+                </h1>
+
+                <p class="hero-description">
+                    AquaWatch uses Sentinel-1 satellite imagery
+                    and machine learning to identify potential
+                    flooded areas and estimate their geographical impact.
+                </p>
+
+                <button id="detectBtn" onclick="runDetection()">
+                    Run Flood Detection →
+                </button>
+
+                <p id="statusMessage">
+                    Ready to process satellite images.
+                </p>
+
+            </div>
+
+            <div class="hero-image">
+
+                <div class="image-overlay">
+                    <h3>Satellite Intelligence</h3>
+                    <p>Flood monitoring and analysis platform</p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- STATISTICS -->
+
+        <section class="stats">
+
+            <div class="stat-card">
+                <p>Flooded Area</p>
+                <h2 id="floodArea">-- km²</h2>
+            </div>
+
+            <div class="stat-card">
+                <p>Flooded Pixels</p>
+                <h2 id="floodPixels">--</h2>
+            </div>
+
+            <div class="stat-card">
+                <p>Detection Threshold</p>
+                <h2 id="threshold">-- dB</h2>
+            </div>
+
+            <div class="stat-card">
+                <p>Affected Villages</p>
+                <h2 id="villages">--</h2>
+            </div>
+
+        </section>
+
+
+        <!-- ML PREDICTION SECTION -->
+
+        <section class="section" id="ml-prediction">
+
+            <div class="section-heading">
+
+                <div>
+                    <p class="tagline">ARTIFICIAL INTELLIGENCE</p>
+                    <h2>AI-Based Flood Prediction</h2>
+
+                    <p class="section-description">
+                        Upload before-and-after satellite images
+                        to generate an ML-based flood prediction.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="upload-grid">
+
+                <!-- BEFORE IMAGE -->
+
+                <div class="upload-card">
+
+                    <h3>Before Flood Image</h3>
+
+                    <p>
+                        Upload the satellite image captured before
+                        the event.
+                    </p>
+
+                    <label for="beforeImage" class="upload-area">
+
+                        <span class="upload-icon">📡</span>
+
+                        <strong>Choose Before Image</strong>
+
+                        <span>JPG, PNG or WEBP</span>
+
+                        <input
+                            type="file"
+                            id="beforeImage"
+                            accept="image/jpeg,image/png,image/webp"
+                        >
+
+                    </label>
+
+                    <img
+                        id="beforePreview"
+                        class="image-preview"
+                        alt="Before satellite image preview"
+                    >
+
+                </div>
+
+
+                <!-- AFTER IMAGE -->
+
+                <div class="upload-card">
+
+                    <h3>After Flood Image</h3>
+
+                    <p>
+                        Upload the satellite image captured after
+                        the event.
+                    </p>
+
+                    <label for="afterImage" class="upload-area">
+
+                        <span class="upload-icon">🌊</span>
+
+                        <strong>Choose After Image</strong>
+
+                        <span>JPG, PNG or WEBP</span>
+
+                        <input
+                            type="file"
+                            id="afterImage"
+                            accept="image/jpeg,image/png,image/webp"
+                        >
+
+                    </label>
+
+                    <img
+                        id="afterPreview"
+                        class="image-preview"
+                        alt="After satellite image preview"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="prediction-action">
+
+                <button
+                    id="predictBtn"
+                    onclick="predictFlood()"
+                >
+                    Detect Flood Using AI →
+                </button>
+
+                <p id="predictionMessage">
+                    Upload both images to begin ML prediction.
+                </p>
+
+            </div>
+
+
+            <!-- ML RESULTS -->
+
+            <div id="predictionResults" class="prediction-results">
+
+                <div class="result-heading">
+                    <p class="tagline">MODEL OUTPUT</p>
+                    <h2>Flood Prediction Results</h2>
+                </div>
+
+                <div class="prediction-cards">
+
+                    <div class="prediction-card">
+
+                        <p>Flood Status</p>
+
+                        <h2 id="predictionStatus">
+                            --
+                        </h2>
+
+                    </div>
+
+                    <div class="prediction-card">
+
+                        <p>Flood Probability</p>
+
+                        <h2 id="floodProbability">
+                            --%
+                        </h2>
+
+                        <div class="probability-track">
+                            <div
+                                id="probabilityBar"
+                                class="probability-fill"
+                            ></div>
+                        </div>
+
+                    </div>
+
+                    <div class="prediction-card">
+
+                        <p>Processing Device</p>
+
+                        <h2 id="predictionDevice">
+                            --
+                        </h2>
+
+                    </div>
+
+                </div>
+
+                <p id="predictionNote" class="prediction-note"></p>
+
+            </div>
+
+        </section>
+
+
+        <!-- COMPARISON SECTION -->
+
+        <section class="section" id="comparison">
+
+            <div class="section-heading">
+
+                <div>
+                    <p class="tagline">SATELLITE ANALYSIS</p>
+                    <h2>Before & After Flood Comparison</h2>
+                </div>
+
+            </div>
+
+            <div class="comparison-card">
+
+                <img
+                    id="comparisonImage"
+                    src=""
+                    alt="Before and after flood comparison"
+                >
+
+                <p id="comparisonPlaceholder">
+                    Run flood detection to generate the satellite
+                    comparison visualization.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- FLOOD MAP -->
+
+        <section class="section" id="map-section">
+
+            <div class="section-heading">
+
+                <div>
+                    <p class="tagline">GEOSPATIAL VISUALIZATION</p>
+                    <h2>Detected Flood Extent</h2>
+                </div>
+
+            </div>
+
+            <div class="map-card">
+
+                <iframe
+                    id="floodMap"
+                    title="AquaWatch Flood Map"
+                    src="about:blank"
+                ></iframe>
+
+                <p id="mapPlaceholder">
+                    The interactive flood map will appear here
+                    after processing.
+                </p>
+
+            </div>
+
+            <a
+                id="mapLink"
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="map-link"
+            >
+                Open Interactive Map ↗
+            </a>
+
+        </section>
+
+
+        <!-- ABOUT -->
+
+        <section class="section" id="about">
+
+            <div class="about-card">
+
+                <p class="tagline">ABOUT AQUAWATCH</p>
+
+                <h2>How does it work?</h2>
+
+                <div class="steps">
+
+                    <div>
+                        <span>01</span>
+                        <h3>Satellite Data</h3>
+                        <p>Collect Sentinel-1 SAR imagery.</p>
+                    </div>
+
+                    <div>
+                        <span>02</span>
+                        <h3>Preprocessing</h3>
+                        <p>Prepare satellite images for analysis.</p>
+                    </div>
+
+                    <div>
+                        <span>03</span>
+                        <h3>Flood Detection</h3>
+                        <p>Analyze image pairs using flood detection and ML.</p>
+                    </div>
+
+                    <div>
+                        <span>04</span>
+                        <h3>Impact Analysis</h3>
+                        <p>Visualize flood extent and affected areas.</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <h3>🌊 AquaWatch</h3>
+
+        <p>
+            Satellite-Based Flood Detection and Monitoring System
+        </p>
+
+        <p>
+            Developed for Disaster Management
+        </p>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>

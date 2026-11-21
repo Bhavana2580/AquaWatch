@@ -1,0 +1,14 @@
+
+
+numpy
+rasterio
+matplotlib
+scikit-image
+geopandas
+shapely
+pandas
+scikit-learn
+joblib
+fastapi
+uvicorn
+folium
