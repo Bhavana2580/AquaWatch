@@ -8,7 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 # Import existing flood detection modules
-from .process_flood import run_flood_detection
+from process_flood import run_flood_detection
 from .visualize_flood import (
     create_comparison_map,
     create_interactive_map,
